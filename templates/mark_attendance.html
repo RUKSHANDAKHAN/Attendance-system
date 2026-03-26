@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Mark Attendance</title>
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg,#fff3e0,#e8f5e9);
+    min-height:100vh;
+    margin:0;
+    padding:30px;
+}
+
+.container{
+    max-width:1000px;
+    margin:auto;
+    background:white;
+    padding:40px;
+    border-radius:16px;
+    box-shadow:0 12px 40px rgba(0,0,0,0.15);
+}
+
+h2{
+    text-align:center;
+    color:#2e7d32;
+    font-size:36px;
+    margin-bottom:30px;
+}
+
+h3{
+    color:#2e7d32;
+    margin-bottom:15px;
+}
+
+button{
+    margin:5px;
+    padding:12px 25px;
+    background-color:#2e7d32;
+    color:white;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:16px;
+    transition:0.2s;
+}
+
+button:hover{ background-color:#1b5e20; }
+
+.back-link{
+    display:block;
+    margin-top:25px;
+    text-align:center;
+    text-decoration:none;
+    font-weight:bold;
+    color:#2e7d32;
+    font-size:16px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
+}
+
+th,td{
+    border:1px solid #ccc;
+    padding:12px;
+    text-align:center;
+}
+
+th{
+    background:#4CAF50;
+    color:white;
+    font-size:16px;
+}
+
+tr:hover{ background:#f2f4ff; transition:0.2s; }
+
+tr.marked{ background:#c8e6c9 !important; }
+
+/* VOICE BOX */
+.voice-box{
+    background:#f1f8e9;
+    border:2px solid #a5d6a7;
+    border-radius:12px;
+    padding:20px 25px;
+    margin-bottom:25px;
+    display:flex;
+    align-items:center;
+    gap:20px;
+    flex-wrap:wrap;
+}
+
+#voiceStatus{
+    font-size:15px;
+    color:#555;
+    font-style:italic;
+}
+
+#voiceResult{
+    font-size:15px;
+    color:#1b5e20;
+    font-weight:bold;
+}
+
+.pulse{ animation: pulse 1s infinite; }
+
+@keyframes pulse{
+    0%   { opacity:1; }
+    50%  { opacity:0.4; }
+    100% { opacity:1; }
+}
+
+/* TOAST NOTIFICATION */
+.toast{
+    position:fixed;
+    top:25px;
+    right:25px;
+    padding:14px 22px;
+    border-radius:10px;
+    font-size:16px;
+    font-weight:bold;
+    color:white;
+    box-shadow:0 6px 20px rgba(0,0,0,0.2);
+    opacity:0;
+    transform:translateY(-10px);
+    transition:all 0.3s ease;
+    z-index:9999;
+    max-width:320px;
+}
+
+.toast.show{
+    opacity:1;
+    transform:translateY(0);
+}
+
+.toast.success{ background:#2e7d32; }
+.toast.warning{ background:#e65100; }
+</style>
+</head>
+<body>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<div class="container">
+<h2>📝 Mark Attendance</h2>
+
+<!-- STEP 1: SELECT DEPARTMENT -->
+{% if not selected_dept %}
+<h3>Choose Department:</h3>
+<form method="GET">
+    {% for dept in departments %}
+        <button type="submit" name="dept" value="{{ dept.department }}-{{ dept.semester }}">
+            {{ dept.department }} (Sem {{ dept.semester }})
+        </button>
+    {% endfor %}
+</form>
+{% endif %}
+
+<!-- STEP 2: SELECT SUBJECT -->
+{% if selected_dept and not selected_subject %}
+<h3>Select Subject:</h3>
+<form method="GET">
+    <input type="hidden" name="dept" value="{{ selected_dept }}">
+    {% for subj in dept_subjects %}
+        <button type="submit" name="subject" value="{{ subj }}">
+            {{ subj }}
+        </button>
+    {% endfor %}
+</form>
+{% endif %}
+
+<!-- STEP 3: STUDENT LIST -->
+{% if selected_dept and selected_subject %}
+<h3>Attendance for {{ selected_dept }} - {{ selected_subject }}</h3>
+
+<!-- VOICE BOX -->
+<div class="voice-box">
+    <button id="startBtn" onclick="startVoice()">🎤 Start Voice</button>
+    <button id="stopBtn" onclick="stopVoice()" style="background:#c62828;" disabled>⏹ Stop</button>
+    <div>
+        <div id="voiceStatus">Status: Idle</div>
+        <div id="voiceResult">Heard: —</div>
+    </div>
+</div>
+
+<form method="POST">
+<table>
+<tr>
+    <th>Roll No</th>
+    <th>Name</th>
+    <th>Present</th>
+</tr>
+{% set key = selected_dept + '|' + selected_subject %}
+{% for s in grouped_students[key] %}
+<tr id="row-{{ s.roll }}">
+    <td>{{ s.roll }}</td>
+    <td class="student-name">{{ s.name }}</td>
+    <td><input type="checkbox" name="present_{{ s.roll }}" id="chk-{{ s.roll }}"></td>
+</tr>
+{% endfor %}
+</table>
+<button type="submit" style="margin-top:20px;">✅ Save Attendance</button>
+</form>
+{% endif %}
+
+<a href="{{ url_for('dashboard') }}" class="back-link">⬅ Back to Dashboard</a>
+</div>
+
+<script>
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+if (!SpeechRecognition) {
+    document.getElementById('voiceStatus').innerText = '❌ Use Chrome for voice support.';
+} else {
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'en-US';
+    recognition.continuous = true;
+    recognition.interimResults = false;
+
+    let toastTimer = null;
+
+    // ---- Dice coefficient similarity ----
+    function similarity(a, b) {
+        a = a.toLowerCase().trim();
+        b = b.toLowerCase().trim();
+        if (a === b) return 1;
+        if (a.length < 2 || b.length < 2) return 0;
+        const bigrams = new Map();
+        for (let i = 0; i < a.length - 1; i++) {
+            const bg = a.slice(i, i+2);
+            bigrams.set(bg, (bigrams.get(bg) || 0) + 1);
+        }
+        let hits = 0;
+        for (let i = 0; i < b.length - 1; i++) {
+            const bg = b.slice(i, i+2);
+            if (bigrams.get(bg) > 0) {
+                bigrams.set(bg, bigrams.get(bg) - 1);
+                hits++;
+            }
+        }
+        return (2 * hits) / (a.length + b.length - 2);
+    }
+
+    function findBestMatch(spoken) {
+        let best = null, bestScore = 0;
+        document.querySelectorAll('.student-name').forEach(cell => {
+            const score = similarity(spoken, cell.innerText);
+            if (score > bestScore) {
+                bestScore = score;
+                best = cell;
+            }
+        });
+        return bestScore >= 0.4 ? best : null;
+    }
+
+    // ---- Toast notification ----
+    function showToast(message, type) {
+        const toast = document.getElementById('toast');
+        toast.innerText = message;
+        toast.className = 'toast ' + type + ' show';
+        if (toastTimer) clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => {
+            toast.classList.remove('show');
+        }, 3000);
+    }
+
+    // ---- On speech result ----
+    recognition.onresult = function(event) {
+        const spoken = event.results[event.results.length - 1][0].transcript.trim();
+        document.getElementById('voiceResult').innerText = 'Heard: ' + spoken;
+
+        const matchedCell = findBestMatch(spoken);
+
+        if (matchedCell) {
+            const row = matchedCell.closest('tr');
+            const checkbox = row.querySelector('input[type="checkbox"]');
+            const name = matchedCell.innerText.trim();
+
+            if (checkbox.checked) {
+                showToast('⚠️ ' + name + ' already marked!', 'warning');
+            } else {
+                checkbox.checked = true;
+                row.classList.add('marked');
+                // Scroll the row into view smoothly
+                row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                showToast('✅ Marked present: ' + name, 'success');
+                document.getElementById('voiceStatus').innerText = '✅ Marked: ' + name;
+            }
+        } else {
+            showToast('⚠️ No match found for: "' + spoken + '"', 'warning');
+            document.getElementById('voiceStatus').innerText = '⚠️ No match: ' + spoken;
+        }
+    };
+
+    recognition.onerror = function(e) {
+        document.getElementById('voiceStatus').innerText = '❌ Error: ' + e.error;
+        resetButtons();
+    };
+
+    recognition.onend = function() { resetButtons(); };
+
+    function startVoice() {
+        recognition.start();
+        document.getElementById('voiceStatus').innerText = '🎤 Listening...';
+        document.getElementById('startBtn').disabled = true;
+        document.getElementById('stopBtn').disabled = false;
+        document.getElementById('startBtn').classList.add('pulse');
+    }
+
+    function stopVoice() {
+        recognition.stop();
+        document.getElementById('voiceStatus').innerText = 'Status: Stopped';
+        resetButtons();
+    }
+
+    function resetButtons() {
+        document.getElementById('startBtn').disabled = false;
+        document.getElementById('stopBtn').disabled = true;
+        document.getElementById('startBtn').classList.remove('pulse');
+    }
+
+    window.startVoice = startVoice;
+    window.stopVoice = stopVoice;
+}
+</script>
+
+</body>
+</html>

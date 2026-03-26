@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>At-Risk Students</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: #f0f2f8;
+            padding: 30px 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #e53935, #c62828);
+            color: white;
+            padding: 30px 35px;
+            border-radius: 14px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header h2 {
+            font-size: 28px;
+            font-weight: 800;
+        }
+
+        .header p {
+            font-size: 14px;
+            opacity: 0.85;
+            margin-top: 4px;
+        }
+
+        .back-btn {
+            background: rgba(255,255,255,0.15);
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .back-btn:hover {
+            background: rgba(255,255,255,0.25);
+        }
+
+        .card {
+            background: white;
+            border-radius: 14px;
+            padding: 28px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th {
+            background: #e53935;
+            color: white;
+            padding: 13px 15px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px 15px;
+            text-align: center;
+            border-bottom: 1px solid #f0f4f8;
+        }
+
+        tr:hover td {
+            background: #fef5f5;
+        }
+
+        .badge-red {
+            background: #ffebee;
+            color: #c62828;
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-weight: 700;
+            display: inline-block;
+        }
+
+        .all-good {
+            text-align: center;
+            color: #2e7d32;
+            font-weight: 700;
+            font-size: 16px;
+            padding: 30px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <h2>🚨 At-Risk Students</h2>
+            <p>Students with attendance below 75%</p>
+        </div>
+        <a href="{{ url_for('dashboard') }}" class="back-btn">⬅ Back</a>
+    </div>
+
+    <!-- TABLE -->
+    <div class="card">
+        {% if at_risk_students %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Roll No</th>
+                    <th>Name</th>
+                    <th>Classes Attended</th>
+                    <th>Total Classes</th>
+                    <th>Attendance %</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for s in at_risk_students %}
+                <tr>
+                    <td>{{ s.roll }}</td>
+                    <td><strong>{{ s.name }}</strong></td>
+                    <td>{{ s.present }}</td>
+                    <td>{{ s.total }}</td>
+                    <td><span class="badge-red">{{ s.percentage }}%</span></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p class="all-good">✅ All students are above 75% attendance! Great job!</p>
+        {% endif %}
+    </div>
+
+</div>
+
+</body>
+</html>

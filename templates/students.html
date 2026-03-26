@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Student Management</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: #f0f4ff;
+    min-height: 100vh;
+    padding: 36px 24px;
+    color: #1a1a2e;
+}
+
+.page-wrapper {
+    max-width: 1200px;
+    margin: auto;
+}
+
+/* PAGE TITLE */
+.page-title {
+    font-size: 32px;
+    font-weight: 800;
+    color: #1a237e;
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* SEARCH */
+.search-wrap {
+    position: relative;
+    margin-bottom: 28px;
+}
+
+.search-wrap input {
+    width: 100%;
+    padding: 14px 20px 14px 48px;
+    border-radius: 12px;
+    border: 2px solid #e0e7ff;
+    font-size: 15px;
+    font-family: inherit;
+    background: white;
+    color: #1a1a2e;
+    outline: none;
+    transition: border 0.2s;
+}
+
+.search-wrap input:focus {
+    border-color: #3949ab;
+}
+
+.search-wrap::before {
+    content: "🔍";
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    pointer-events: none;
+}
+
+/* STAT CARDS */
+.stat-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-bottom: 28px;
+}
+
+.stat-card {
+    background: white;
+    border-radius: 14px;
+    padding: 22px 24px;
+    box-shadow: 0 2px 12px rgba(57,73,171,0.08);
+    border-left: 4px solid #3949ab;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.stat-card .stat-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #7986cb;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stat-card .stat-number {
+    font-size: 34px;
+    font-weight: 800;
+    color: #1a237e;
+    line-height: 1;
+}
+
+/* SECTION CARDS */
+.section {
+    background: white;
+    border-radius: 14px;
+    padding: 26px 28px;
+    margin-bottom: 22px;
+    box-shadow: 0 2px 12px rgba(57,73,171,0.07);
+}
+
+.section-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1a237e;
+    margin-bottom: 18px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #e8eaf6;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* FORM INPUTS */
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+.form-row input,
+.form-row select {
+    padding: 11px 16px;
+    border-radius: 9px;
+    border: 2px solid #e0e7ff;
+    font-size: 14px;
+    font-family: inherit;
+    color: #1a1a2e;
+    background: #f8f9ff;
+    outline: none;
+    transition: border 0.2s;
+    flex: 1;
+    min-width: 150px;
+}
+
+.form-row input:focus,
+.form-row select:focus {
+    border-color: #3949ab;
+    background: white;
+}
+
+/* BUTTONS */
+.btn {
+    padding: 11px 22px;
+    border: none;
+    border-radius: 9px;
+    background: linear-gradient(135deg, #5c6bc0, #3949ab);
+    color: white;
+    font-weight: 700;
+    font-size: 14px;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.btn:hover {
+    background: linear-gradient(135deg, #3949ab, #283593);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(57,73,171,0.3);
+}
+
+/* DEPARTMENT BOX */
+.department-box {
+    background: white;
+    border-radius: 14px;
+    padding: 24px 28px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 12px rgba(57,73,171,0.07);
+}
+
+.dept-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.dept-name {
+    font-size: 17px;
+    font-weight: 700;
+    color: #1a237e;
+}
+
+.subject-badge {
+    background: #3949ab;
+    color: white;
+    padding: 5px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.student-count {
+    font-size: 13px;
+    color: #7986cb;
+    font-weight: 600;
+}
+
+/* TABLE */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+th {
+    background: #3949ab;
+    color: white;
+    padding: 12px 16px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+th:first-child { border-radius: 8px 0 0 0; }
+th:last-child  { border-radius: 0 8px 0 0; }
+
+td {
+    padding: 12px 16px;
+    text-align: center;
+    border-bottom: 1px solid #e8eaf6;
+    color: #333;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+tbody tr:hover {
+    background: #f0f4ff;
+    transition: 0.15s;
+}
+
+/* DELETE */
+.delete-btn {
+    color: #e53935;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 13px;
+    padding: 5px 12px;
+    border-radius: 6px;
+    background: #fff5f5;
+    border: 1px solid #ffcdd2;
+    transition: 0.2s;
+    display: inline-block;
+}
+
+.delete-btn:hover {
+    background: #ffebee;
+    color: #b71c1c;
+}
+
+/* BACK LINK */
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 30px;
+    color: #3949ab;
+    font-weight: 700;
+    font-size: 15px;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 9px;
+    border: 2px solid #c5cae9;
+    transition: 0.2s;
+}
+
+.back-link:hover {
+    background: #e8eaf6;
+    border-color: #3949ab;
+}
+
+/* STUDENTS SECTION HEADING */
+.students-heading {
+    font-size: 18px;
+    font-weight: 800;
+    color: #1a237e;
+    margin: 32px 0 16px;
+}
+
+</style>
+</head>
+<body>
+
+<div class="page-wrapper">
+
+    <div class="page-title">🎓 Student Management</div>
+
+    <!-- SEARCH -->
+    <div class="search-wrap">
+        <input type="text" id="search" placeholder="Search by name or roll number..." onkeyup="searchStudent()">
+    </div>
+
+    <!-- STAT CARDS -->
+    <div class="stat-row">
+        <div class="stat-card">
+            <span class="stat-label">Total Students</span>
+            <span class="stat-number">{{ students|length }}</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-label">Departments</span>
+            <span class="stat-number">{{ departments|length }}</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-label">Subjects</span>
+            <span class="stat-number">{{ grouped_students|length }}</span>
+        </div>
+    </div>
+
+    <!-- ADD DEPARTMENT -->
+    <div class="section">
+        <div class="section-title">🏫 Add Department / Semester</div>
+        <form action="/add_department" method="POST">
+            <div class="form-row">
+                <input type="text" name="department" placeholder="Department (e.g. CSE)" required>
+                <input type="text" name="semester" placeholder="Semester (e.g. 3)" required>
+                <button class="btn" type="submit">＋ Create</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- ADD STUDENT -->
+    <div class="section">
+        <div class="section-title">➕ Add Student</div>
+        <form method="POST">
+            <div class="form-row">
+                <input type="text" name="roll" placeholder="Roll Number" required>
+                <input type="text" name="name" placeholder="Student Name" required>
+                <select name="department_semester" required>
+                    {% for d in departments %}
+                    <option value="{{ d.department }}-{{ d.semester }}">
+                        {{ d.department }} — Semester {{ d.semester }}
+                    </option>
+                    {% endfor %}
+                </select>
+                <input type="text" name="subject" placeholder="Subject" required>
+                <button class="btn" type="submit">Add Student</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- BULK IMPORT SECTION -->
+<div class="section">
+    <div class="section-title">📥 Bulk Import Students (CSV)</div>
+    <form action="/bulk_import_students" method="POST" enctype="multipart/form-data">
+        <div class="form-row">
+            <input type="file" name="file" accept=".csv" required style="flex:1; min-width:200px;">
+            <button class="btn" type="submit">⬆ Upload CSV</button>
+        </div>
+        <p style="font-size:12px; color:#888; margin-top:10px;">
+            📋 CSV format: roll, name, department, semester, subject
+        </p>
+    </form>
+</div>
+
+<!-- CSV TEMPLATE DOWNLOAD -->
+<div class="section">
+    <div class="section-title">📄 Download Template</div>
+    <p style="font-size:14px; color:#555; margin-bottom:12px;">
+        Download this template and fill it with your student data:
+    </p>
+    <a href="/download_csv_template" class="btn">⬇ Download Template</a>
+</div>
+
+    <!-- COPY STUDENTS -->
+    <div class="section">
+        <div class="section-title">📋 Copy Students to Another Subject</div>
+        <form action="/copy_students" method="POST">
+            <div class="form-row">
+                <select name="source_subject" required>
+                    <option value="">Copy From Subject</option>
+                    {% for key in grouped_students.keys() %}
+                    <option value="{{ key.split('|')[1] }}">{{ key.split('|')[1] }}</option>
+                    {% endfor %}
+                </select>
+                <select name="target_subject" required>
+                    <option value="">Copy To Subject</option>
+                    {% for key in grouped_students.keys() %}
+                    <option value="{{ key.split('|')[1] }}">{{ key.split('|')[1] }}</option>
+                    {% endfor %}
+                </select>
+                <button class="btn" type="submit">Copy Students</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- STUDENT TABLES -->
+    <div class="students-heading">📚 Student Lists</div>
+
+    {% for key, student_list in grouped_students.items() %}
+    <div class="department-box">
+
+        <div class="dept-header">
+            <span class="dept-name">
+                {{ key.split("|")[0].split("-")[0] }} &nbsp;·&nbsp; Semester {{ key.split("|")[0].split("-")[1] }}
+            </span>
+            <span class="subject-badge">{{ key.split("|")[1] }}</span>
+            <span class="student-count">{{ student_list|length }} students</span>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Roll No</th>
+                    <th>Name</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for s in student_list %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ s.roll }}</td>
+                    <td>{{ s.name }}</td>
+                    <td>
+                        <a class="delete-btn" href="{{ url_for('delete_student', roll=s.roll, subject=s.subject) }}">🗑 Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+    {% endfor %}
+
+    <a href="{{ url_for('dashboard') }}" class="back-link">⬅ Back to Dashboard</a>
+
+</div>
+
+<script>
+function searchStudent() {
+    const input = document.getElementById("search").value.toLowerCase();
+    document.querySelectorAll(".department-box table tbody tr").forEach(row => {
+        row.style.display = row.innerText.toLowerCase().includes(input) ? "" : "none";
+    });
+}
+</script>
+
+</body>
+</html>

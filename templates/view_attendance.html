@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Attendance</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', Arial, sans-serif;
+        }
+
+        body {
+            background: #f0f4f8;
+            min-height: 100vh;
+            padding: 30px 20px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        /* HEADER */
+        .page-header {
+            background: linear-gradient(135deg, #00897b, #004d40);
+            color: white;
+            padding: 30px 35px;
+            border-radius: 16px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .page-header h2 {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .page-header p {
+            font-size: 14px;
+            opacity: 0.85;
+            margin-top: 4px;
+        }
+
+        .back-btn {
+            background: rgba(255,255,255,0.15);
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .back-btn:hover {
+            background: rgba(255,255,255,0.25);
+        }
+
+        /* SECTION CARD */
+        .card {
+            background: white;
+            border-radius: 14px;
+            padding: 25px 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+            margin-bottom: 20px;
+        }
+
+        .card h3 {
+            font-size: 16px;
+            font-weight: 700;
+            color: #004d40;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* BUTTONS */
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .button-group button {
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            background: #f0f4f8;
+            color: #004d40;
+            border: 2px solid #b2dfdb;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .button-group button:hover,
+        .button-group button.active {
+            background: #00897b;
+            color: white;
+            border-color: #00897b;
+        }
+
+        /* SUMMARY STATS */
+        .summary-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-pill {
+            background: #f0f4f8;
+            border-radius: 10px;
+            padding: 16px 20px;
+            text-align: center;
+        }
+
+        .stat-pill h4 {
+            font-size: 26px;
+            font-weight: 800;
+            color: #00897b;
+        }
+
+        .stat-pill p {
+            font-size: 13px;
+            color: #666;
+            margin-top: 3px;
+            font-weight: 500;
+        }
+
+        /* TABLE */
+        table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    border: 2px solid #b2dfdb;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+        th {
+            background: #00897b;
+            color: white;
+            padding: 13px 15px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+            border: 1px solid #00796b;
+        }
+
+        th:first-child { border-radius: 8px 0 0 0; }
+        th:last-child  { border-radius: 0 8px 0 0; }
+
+        td {
+            padding: 12px 15px;
+            text-align: center;
+            font-size: 14px;
+            border-bottom: 1px solid #b2dfdb;
+            color: #333;
+        }
+
+        tr:last-child td { border-bottom: none; }
+
+        tr:hover td {
+            background: #f9fffe;
+        }
+
+        .present {
+            color: #2e7d32;
+            font-weight: 700;
+            background: #e8f5e9;
+            padding: 4px 12px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        .absent {
+            color: #c62828;
+            font-weight: 700;
+            background: #ffebee;
+            padding: 4px 12px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        .perc-good {
+            color: #2e7d32;
+            font-weight: 700;
+            background: #e8f5e9;
+            padding: 5px 14px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        .perc-bad {
+            color: #c62828;
+            font-weight: 700;
+            background: #ffebee;
+            padding: 5px 14px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        /* DATE SECTION */
+        .date-section {
+            margin-top: 25px;
+        }
+
+        .date-label {
+            display: inline-block;
+            background: #e0f2f1;
+            color: #004d40;
+            font-weight: 700;
+            font-size: 13px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            margin-bottom: 10px;
+            margin-top: 20px;
+        }
+
+        /* EXPORT BUTTON */
+        .export-btn {
+            display: inline-block;
+            background: #00897b;
+            color: white;
+            padding: 10px 22px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.2s;
+            margin-bottom: 20px;
+        }
+
+        .export-btn:hover {
+            background: #004d40;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <!-- HEADER -->
+    <div class="page-header">
+        <div>
+            <h2>📊 View Attendance</h2>
+            <p>Track and monitor student attendance records</p>
+        </div>
+        <a href="{{ url_for('dashboard') }}" class="back-btn">⬅ Back to Dashboard</a>
+    </div>
+
+    <!-- DEPARTMENT SELECTION -->
+    <div class="card">
+        <h3>🏫 Choose Department</h3>
+        <div class="button-group">
+            {% for dept in departments %}
+            <form method="GET" style="display:inline;">
+                <input type="hidden" name="dept" value="{{ dept.department }}-{{ dept.semester }}">
+                <button type="submit"
+                    {% if selected_dept == dept.department ~ '-' ~ dept.semester %}class="active"{% endif %}>
+                    {{ dept.department }} — Sem {{ dept.semester }}
+                </button>
+            </form>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- SUBJECT SELECTION -->
+    {% if selected_dept %}
+    <div class="card">
+        <h3>📚 Select Subject</h3>
+        <div class="button-group">
+            {% for subj in dept_subjects %}
+            <form method="GET" style="display:inline;">
+                <input type="hidden" name="dept" value="{{ selected_dept }}">
+                <input type="hidden" name="subject" value="{{ subj }}">
+                <button type="submit"
+                    {% if selected_subject == subj %}class="active"{% endif %}>
+                    {{ subj }}
+                </button>
+            </form>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- ATTENDANCE TABLE -->
+    {% if selected_dept and selected_subject %}
+
+    <!-- EXPORT BUTTON -->
+    <a href="{{ url_for('export_csv') }}" class="export-btn">⬇ Export as CSV</a>
+
+    <!-- SUMMARY STATS -->
+    {% set key = selected_dept ~ '|' ~ selected_subject %}
+    {% set students_list = grouped_students[key] %}
+    {% set total_count = students_list | length %}
+    {% set above75 = [] %}
+    {% for s in students_list %}
+        {% set perc = student_attendance[key][s.roll]['percentage'] %}
+        {% if perc >= 75 %}{% set _ = above75.append(s) %}{% endif %}
+    {% endfor %}
+
+    <div class="summary-stats">
+        <div class="stat-pill">
+            <h4>{{ total_count }}</h4>
+            <p>Total Students</p>
+        </div>
+        <div class="stat-pill">
+            <h4>{{ above75 | length }}</h4>
+            <p>Above 75%</p>
+        </div>
+        <div class="stat-pill">
+            <h4 style="color:#c62828;">{{ total_count - above75|length }}</h4>
+            <p>Below 75% ⚠️</p>
+        </div>
+    </div>
+
+    <!-- SUMMARY TABLE -->
+    <div class="card">
+        <h3>📋 Attendance Summary — {{ selected_dept }} | {{ selected_subject }}</h3>
+        <table>
+            <tr>
+                <th>Roll No</th>
+                <th>Name</th>
+                <th>Classes Attended</th>
+                <th>Total Classes</th>
+                <th>Percentage</th>
+            </tr>
+            {% for s in grouped_students[key] %}
+            {% set perc = student_attendance[key][s.roll]['percentage'] %}
+            <tr>
+                <td>{{ s.roll }}</td>
+                <td><strong>{{ s.name }}</strong></td>
+                <td>{{ student_attendance[key][s.roll]['present'] }}</td>
+                <td>{{ student_attendance[key][s.roll]['total'] }}</td>
+                <td>
+                    {% if perc >= 75 %}
+                        <span class="perc-good">✔ {{ perc }}%</span>
+                    {% else %}
+                        <span class="perc-bad">⚠ {{ perc }}%</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <!-- DATE-WISE ATTENDANCE -->
+    <div class="card">
+        <h3>📅 Date-wise Attendance</h3>
+        <div class="date-section">
+        {% for day, records in attendance.items() %}
+            {% set filtered = records | selectattr("dept_sem", "equalto", selected_dept)
+                                      | selectattr("subject", "equalto", selected_subject)
+                                      | list %}
+            {% if filtered %}
+                <div class="date-label">📅 {{ day }}</div>
+                <table>
+                    <tr>
+                        <th>Roll No</th>
+                        <th>Name</th>
+                        <th>Status</th>
+                    </tr>
+                    {% for r in filtered %}
+                    <tr>
+                        <td>{{ r.roll }}</td>
+                        <td>{{ r.name }}</td>
+                        <td>
+                            <span class="{{ 'present' if r.status == 'Present' else 'absent' }}">
+                                {{ '✔ Present' if r.status == 'Present' else '✘ Absent' }}
+                            </span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            {% endif %}
+        {% endfor %}
+        </div>
+    </div>
+
+    {% endif %}
+
+</div>
+</body>
+</html>

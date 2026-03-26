@@ -1,0 +1,369 @@
+{
+  "2026-02-19": [
+    {
+      "roll": "1",
+      "name": "RK",
+      "status": "Present"
+    },
+    {
+      "roll": "2",
+      "name": "nafisha khan",
+      "status": "Absent"
+    },
+    {
+      "roll": "3",
+      "name": "arshi khanam",
+      "status": "Present"
+    }
+  ],
+  "2026-02-20": [
+    {
+      "roll": "1",
+      "name": "RK",
+      "status": "Present"
+    },
+    {
+      "roll": "2",
+      "name": "nafisha khan",
+      "status": "Present"
+    },
+    {
+      "roll": "3",
+      "name": "arshi khanam",
+      "status": "Absent"
+    }
+  ],
+  "2026-03-11": [
+    {
+      "roll": "1",
+      "name": "RK",
+      "status": "Present"
+    },
+    {
+      "roll": "2",
+      "name": "nafisha khan",
+      "status": "Present"
+    },
+    {
+      "roll": "3",
+      "name": "arshi khanam",
+      "status": "Absent"
+    }
+  ],
+  "2026-03-13": [
+    {
+      "roll": "1",
+      "name": "RK",
+      "status": "Present",
+      "dept_sem": "CSE-1",
+      "subject": "dbms"
+    },
+    {
+      "roll": "2",
+      "name": "arshi",
+      "status": "Present",
+      "dept_sem": "CSE-1",
+      "subject": "dbms"
+    },
+    {
+      "roll": "3",
+      "name": "Fraz Islam",
+      "status": "Present",
+      "dept_sem": "CSE-1",
+      "subject": "dbms"
+    },
+    {
+      "roll": "4",
+      "name": "nafisha khan",
+      "status": "Absent",
+      "dept_sem": "CSE-1",
+      "subject": "dbms"
+    },
+    {
+      "roll": "5",
+      "name": "brownie",
+      "status": "Absent",
+      "dept_sem": "CSE-1",
+      "subject": "dbms"
+    },
+    {
+      "roll": "1",
+      "name": "shaan",
+      "status": "Present",
+      "dept_sem": "ECE-1",
+      "subject": "numerical method"
+    },
+    {
+      "roll": "2",
+      "name": "pritam",
+      "status": "Present",
+      "dept_sem": "ECE-1",
+      "subject": "numerical method"
+    },
+    {
+      "roll": "1",
+      "name": "RK",
+      "status": "Present",
+      "dept_sem": "CSE-1",
+      "subject": "computer network"
+    },
+    {
+      "roll": "2",
+      "name": "arshi",
+      "status": "Present",
+      "dept_sem": "CSE-1",
+      "subject": "computer network"
+    },
+    {
+      "roll": "3",
+      "name": "Fraz Islam",
+      "status": "Absent",
+      "dept_sem": "CSE-1",
+      "subject": "computer network"
+    },
+    {
+      "roll": "4",
+      "name": "nafisha khan",
+      "status": "Present",
+      "dept_sem": "CSE-1",
+      "subject": "computer network"
+    },
+    {
+      "roll": "5",
+      "name": "brownie",
+      "status": "Present",
+      "dept_sem": "CSE-1",
+      "subject": "computer network"
+    }
+  ],
+  "2026-03-17": [
+    {
+      "roll": "1",
+      "name": "RK",
+      "status": "Present",
+      "dept_sem": "CSE-1",
+      "subject": "dbms"
+    },
+    {
+      "roll": "2",
+      "name": "arshi",
+      "status": "Present",
+      "dept_sem": "CSE-1",
+      "subject": "dbms"
+    },
+    {
+      "roll": "3",
+      "name": "Fraz Islam",
+      "status": "Absent",
+      "dept_sem": "CSE-1",
+      "subject": "dbms"
+    },
+    {
+      "roll": "4",
+      "name": "nafisha khan",
+      "status": "Present",
+      "dept_sem": "CSE-1",
+      "subject": "dbms"
+    },
+    {
+      "roll": "5",
+      "name": "brownie",
+      "status": "Present",
+      "dept_sem": "CSE-1",
+      "subject": "dbms"
+    },
+    {
+      "roll": "1",
+      "name": "shaan",
+      "status": "Present",
+      "dept_sem": "ECE-1",
+      "subject": "numerical method"
+    },
+    {
+      "roll": "2",
+      "name": "pritam",
+      "status": "Present",
+      "dept_sem": "ECE-1",
+      "subject": "numerical method"
+    },
+    {
+      "roll": "1",
+      "name": "RK",
+      "status": "Absent",
+      "dept_sem": "CSE-1",
+      "subject": "computer network"
+    },
+    {
+      "roll": "2",
+      "name": "arshi",
+      "status": "Absent",
+      "dept_sem": "CSE-1",
+      "subject": "computer network"
+    },
+    {
+      "roll": "3",
+      "name": "Fraz Islam",
+      "status": "Present",
+      "dept_sem": "CSE-1",
+      "subject": "computer network"
+    },
+    {
+      "roll": "4",
+      "name": "nafisha khan",
+      "status": "Present",
+      "dept_sem": "CSE-1",
+      "subject": "computer network"
+    },
+    {
+      "roll": "5",
+      "name": "brownie",
+      "status": "Present",
+      "dept_sem": "CSE-1",
+      "subject": "computer network"
+    }
+  ],
+  "2026-03-18": [
+    {
+      "roll": "1",
+      "name": "RK",
+      "status": "Present",
+      "dept_sem": "CSE-1",
+      "subject": "dbms"
+    },
+    {
+      "roll": "2",
+      "name": "arshi",
+      "status": "Present",
+      "dept_sem": "CSE-1",
+      "subject": "dbms"
+    },
+    {
+      "roll": "3",
+      "name": "Fraz Islam",
+      "status": "Present",
+      "dept_sem": "CSE-1",
+      "subject": "dbms"
+    },
+    {
+      "roll": "4",
+      "name": "nafisha khan",
+      "status": "Present",
+      "dept_sem": "CSE-1",
+      "subject": "dbms"
+    },
+    {
+      "roll": "5",
+      "name": "brownie",
+      "status": "Present",
+      "dept_sem": "CSE-1",
+      "subject": "dbms"
+    },
+    {
+      "roll": "1",
+      "name": "RK",
+      "status": "Present",
+      "dept_sem": "CSE-1",
+      "subject": "computer network"
+    },
+    {
+      "roll": "2",
+      "name": "arshi",
+      "status": "Absent",
+      "dept_sem": "CSE-1",
+      "subject": "computer network"
+    },
+    {
+      "roll": "3",
+      "name": "Fraz Islam",
+      "status": "Present",
+      "dept_sem": "CSE-1",
+      "subject": "computer network"
+    },
+    {
+      "roll": "4",
+      "name": "nafisha khan",
+      "status": "Present",
+      "dept_sem": "CSE-1",
+      "subject": "computer network"
+    },
+    {
+      "roll": "5",
+      "name": "brownie",
+      "status": "Present",
+      "dept_sem": "CSE-1",
+      "subject": "computer network"
+    }
+  ],
+  "2026-03-26": [
+    {
+      "roll": "1",
+      "name": "RK",
+      "status": "Absent",
+      "dept_sem": "CSE-1",
+      "subject": "dbms"
+    },
+    {
+      "roll": "2",
+      "name": "arshi",
+      "status": "Present",
+      "dept_sem": "CSE-1",
+      "subject": "dbms"
+    },
+    {
+      "roll": "3",
+      "name": "Fraz Islam",
+      "status": "Present",
+      "dept_sem": "CSE-1",
+      "subject": "dbms"
+    },
+    {
+      "roll": "4",
+      "name": "nafisha khan",
+      "status": "Present",
+      "dept_sem": "CSE-1",
+      "subject": "dbms"
+    },
+    {
+      "roll": "5",
+      "name": "brownie",
+      "status": "Present",
+      "dept_sem": "CSE-1",
+      "subject": "dbms"
+    },
+    {
+      "roll": "1",
+      "name": "RK",
+      "status": "Present",
+      "dept_sem": "CSE-1",
+      "subject": "computer network"
+    },
+    {
+      "roll": "2",
+      "name": "arshi",
+      "status": "Absent",
+      "dept_sem": "CSE-1",
+      "subject": "computer network"
+    },
+    {
+      "roll": "3",
+      "name": "Fraz Islam",
+      "status": "Present",
+      "dept_sem": "CSE-1",
+      "subject": "computer network"
+    },
+    {
+      "roll": "4",
+      "name": "nafisha khan",
+      "status": "Present",
+      "dept_sem": "CSE-1",
+      "subject": "computer network"
+    },
+    {
+      "roll": "5",
+      "name": "brownie",
+      "status": "Absent",
+      "dept_sem": "CSE-1",
+      "subject": "computer network"
+    }
+  ]
+}

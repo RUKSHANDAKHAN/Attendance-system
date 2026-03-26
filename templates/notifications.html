@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Notifications</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: #f0f4ff;
+    min-height: 100vh;
+    padding: 36px 24px;
+    color: #1a1a2e;
+}
+
+.page-wrapper { max-width: 1000px; margin: auto; }
+
+.page-title {
+    font-size: 30px;
+    font-weight: 800;
+    color: #b71c1c;
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.summary-card {
+    background: white;
+    border-radius: 14px;
+    padding: 22px 28px;
+    margin-bottom: 28px;
+    box-shadow: 0 2px 12px rgba(183,28,28,0.08);
+    border-left: 5px solid #e53935;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.summary-card .big-number {
+    font-size: 48px;
+    font-weight: 900;
+    color: #e53935;
+    line-height: 1;
+}
+
+.summary-card .summary-text {
+    font-size: 15px;
+    color: #555;
+    line-height: 1.6;
+}
+
+.summary-card .summary-text strong {
+    color: #b71c1c;
+}
+
+.no-risk {
+    background: white;
+    border-radius: 14px;
+    padding: 40px;
+    text-align: center;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+
+.no-risk p {
+    font-size: 18px;
+    color: #2e7d32;
+    font-weight: 600;
+    margin-top: 12px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    font-size: 14px;
+}
+
+th {
+    background: #c62828;
+    color: white;
+    padding: 13px 16px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+td {
+    padding: 13px 16px;
+    text-align: center;
+    border-bottom: 1px solid #f5f5f5;
+    color: #333;
+}
+
+tr:last-child td { border-bottom: none; }
+
+tbody tr:hover { background: #fff8f8; transition: 0.15s; }
+
+.badge-danger {
+    background: #ffebee;
+    color: #c62828;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 13px;
+    border: 1px solid #ffcdd2;
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 30px;
+    color: #3949ab;
+    font-weight: 700;
+    font-size: 15px;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 9px;
+    border: 2px solid #c5cae9;
+    transition: 0.2s;
+}
+
+.back-link:hover {
+    background: #e8eaf6;
+    border-color: #3949ab;
+}
+</style>
+</head>
+<body>
+<div class="page-wrapper">
+
+    <div class="page-title">🔔 Notifications — At Risk Students</div>
+
+    {% if at_risk %}
+    <div class="summary-card">
+        <div class="big-number">{{ at_risk|length }}</div>
+        <div class="summary-text">
+            <strong>{{ at_risk|length }} student(s)</strong> have attendance below 75%.<br>
+            These students may be at risk and need attention.
+        </div>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Roll No</th>
+                <th>Name</th>
+                <th>Department</th>
+                <th>Subject</th>
+                <th>Present</th>
+                <th>Total Classes</th>
+                <th>Attendance %</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for s in at_risk %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ s.roll }}</td>
+                <td>{{ s.name }}</td>
+                <td>{{ s.dept_sem }}</td>
+                <td>{{ s.subject }}</td>
+                <td>{{ s.present }}</td>
+                <td>{{ s.total }}</td>
+                <td><span class="badge-danger">{{ s.percentage }}%</span></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% else %}
+    <div class="no-risk">
+        <div style="font-size:60px;">🎉</div>
+        <p>All students have attendance above 75%! No alerts.</p>
+    </div>
+    {% endif %}
+
+    <a href="{{ url_for('dashboard') }}" class="back-link">⬅ Back to Dashboard</a>
+
+</div>
+</body>
+</html>

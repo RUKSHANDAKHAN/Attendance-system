@@ -1,0 +1,74 @@
+[
+  {
+    "roll": "1",
+    "name": "RK",
+    "dept_sem": "CSE-1",
+    "subject": "dbms"
+  },
+  {
+    "roll": "1",
+    "name": "RK",
+    "dept_sem": "CSE-1",
+    "subject": "computer network"
+  },
+  {
+    "roll": "1",
+    "name": "shaan",
+    "dept_sem": "ECE-1",
+    "subject": "numerical method"
+  },
+  {
+    "roll": "2",
+    "name": "arshi",
+    "dept_sem": "CSE-1",
+    "subject": "dbms"
+  },
+  {
+    "roll": "2",
+    "name": "arshi",
+    "dept_sem": "CSE-1",
+    "subject": "computer network"
+  },
+  {
+    "roll": "2",
+    "name": "pritam",
+    "dept_sem": "ECE-1",
+    "subject": "numerical method"
+  },
+  {
+    "roll": "3",
+    "name": "Fraz Islam",
+    "dept_sem": "CSE-1",
+    "subject": "dbms"
+  },
+  {
+    "roll": "3",
+    "name": "Fraz Islam",
+    "dept_sem": "CSE-1",
+    "subject": "computer network"
+  },
+  {
+    "roll": "4",
+    "name": "nafisha khan",
+    "dept_sem": "CSE-1",
+    "subject": "dbms"
+  },
+  {
+    "roll": "4",
+    "name": "nafisha khan",
+    "dept_sem": "CSE-1",
+    "subject": "computer network"
+  },
+  {
+    "roll": "5",
+    "name": "brownie",
+    "dept_sem": "CSE-1",
+    "subject": "dbms"
+  },
+  {
+    "roll": "5",
+    "name": "brownie",
+    "dept_sem": "CSE-1",
+    "subject": "computer network"
+  }
+]
